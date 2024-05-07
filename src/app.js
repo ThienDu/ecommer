@@ -13,6 +13,9 @@ app.use(compression())
 
 
 // connect DB
+require('./dbs/init.mongodb')
+// const {countConnect} = require('./helpers/check.connect')
+// countConnect()
 
 
 
