@@ -1,8 +1,8 @@
 'use strict'
 
 const mongoose = require('mongoose')
-
-const connectString = `mongodb://localhost:27017/ecommer`
+const {db: {host, port, name}} = require('../configs/config.mongodb')
+const connectString = `mongodb://${host}:${port}/${name}`
 const {countConnect, checkOverload } = require('../helpers/check.connect')
 
 class Database {
@@ -11,7 +11,8 @@ class Database {
     }
     //connect
     connect(type ='mongodb'){
-        mongoose.connect(connectString).then(_ => console.log(`connect mongo success`, countConnect(), checkOverload())).catch(err => console.log(`erorr`))
+        mongoose.connect(connectString).then(_ => console.log(`connect mongo success`, connectString, countConnect(), checkOverload()))
+        .catch(err => console.log(`erorr`, connectString))
         //dev
         if(1 === 1){
             mongoose.set('debug', true)
