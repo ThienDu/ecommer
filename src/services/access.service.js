@@ -6,6 +6,8 @@ const crypto = require('crypto')
 const KeyTokenService = require("./keyToken.service")
 const { createTokenPair } = require("../auth/authUtils")
 const {getInforData} = require("../utils")
+const { BadRequestError, ConflictRequestError } = require("../core/error.response")
+const { throws } = require("assert")
 
 const RolesShop = {
     SHOP: 'SHOP',
@@ -18,7 +20,9 @@ class AccessService {
     static signUp = async ({name, email, password}) =>{
         try {
             const holderShop = await shopModel.findOne({email}).lean() // sử dung lean() để trả về 1 object json thuần túy
-            if(holderShop) return {code: 'xxx', message: 'Shop is areadly'}
+            if(holderShop) {
+                throw new BadRequestError('Error: Shop already registered')
+            }
             
             const passwordHash = await bycrypt.hash(password, 10)
             const newShop = await shopModel.create({
@@ -27,33 +31,32 @@ class AccessService {
             console.log(`newShop here`, newShop)
             if(newShop) {
                 //created private key, public key
-                const {privateKey, publicKey} =  crypto.generateKeyPairSync('rsa',{
-                    modulusLength: 4096,
-                    publicKeyEncoding: {
-                        type: 'pkcs1',
-                        format: 'pem'
-                    },
-                    privateKeyEncoding: {
-                        type: 'pkcs1',
-                        format: 'pem'
-                    }
-                })
-
-                console.log('rsa',privateKey, publicKey) //save collection keystore
-
-                const publicKeyString = await KeyTokenService.createKeyToken({
+                // const {privateKey, publicKey} =  crypto.generateKeyPairSync('rsa',{
+                //     modulusLength: 4096,
+                //     publicKeyEncoding: {
+                //         type: 'pkcs1',
+                //         format: 'pem'
+                //     },
+                //     privateKeyEncoding: {
+                //         type: 'pkcs1',
+                //         format: 'pem'
+                //     }
+                // })
+                const privateKey = crypto.randomBytes(64).toString('hex')
+                const publicKey = crypto.randomBytes(64).toString('hex')
+                const keyStore = await KeyTokenService.createKeyToken({
                     userId: newShop._id ,
-                    publicKey
+                    publicKey,
+                    privateKey
                 })
-              
-                if(!publicKeyString){
+                
+                if(!keyStore){
                     return {
                         code: 'xxxx',
-                        message: 'publicKeyString erorr!!!'
+                        message: 'keyStore erorr!!!'
                     }
                 }
-                const publicKeyObject = crypto.createPublicKey(publicKeyString)
-                const tokens = await createTokenPair({userId: newShop._id, email}, publicKeyObject, privateKey)
+                const tokens = await createTokenPair({userId: newShop._id, email}, publicKey, privateKey)
                 console.log(`Create token success`, tokens)
 
                 return {

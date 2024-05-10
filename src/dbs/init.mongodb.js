@@ -11,7 +11,7 @@ class Database {
     }
     //connect
     connect(type ='mongodb'){
-        mongoose.connect(connectString).then(_ => console.log(`connect mongo success`, connectString, countConnect(), checkOverload()))
+        mongoose.connect(connectString).then(_ => console.log(`connect mongo success`, connectString))
         .catch(err => console.log(`erorr`, connectString))
         //dev
         if(1 === 1){
