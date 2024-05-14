@@ -9,7 +9,7 @@ let keyTokenSchema = new Schema({
     user:{
         type:Schema.Types.ObjectId,
         required:true,
-        ref: 'shop'
+        ref: 'Shop'
     },
     publicKey:{
         type:String,
@@ -19,10 +19,14 @@ let keyTokenSchema = new Schema({
         type:String,
         require: true
     },
-    refreshToke:{
-        type:Array,
+    refreshTokenUsed:{
+        type:Array, // Những rf Token đã được sử dụng
         default:[],
+    },  refreshToken:{
+        type:String, // RF Token đang được sử dụng
+        require:true,
     },
+
   
 },{
     collation: COLLECTION_NAME,
