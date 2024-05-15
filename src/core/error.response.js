@@ -44,9 +44,16 @@ class NotFoundError extends ErrorResponse {
     }
 }
 
+class ForbiddenError extends ErrorResponse {
+    constructor(massage = httpStatusCode.reasonPhrases.FORBIDDEN, statusCode = httpStatusCode.statusCodes.FORBIDDEN){
+        super(massage, statusCode)
+    }
+}
+
 module.exports = {
     ConflictRequestError,
     BadRequestError,
     AuthFailureError,
-    NotFoundError
+    NotFoundError,
+    ForbiddenError
 }

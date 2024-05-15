@@ -4,6 +4,7 @@ const { filter } = require("lodash")
 const keyTokenModel = require("../models/keyToken.model")
 const mongoose = require('mongoose');
 const { BadRequestError } = require("../core/error.response");
+
 const ObjectId = mongoose.Types
 class KeyTokenService{
     static createKeyToken= async ({userId, publicKey, privateKey, refreshToken}) => {
@@ -40,6 +41,18 @@ class KeyTokenService{
     }
     static removeKeyById = async({id}) => {
         return await keyTokenModel.findOneAndDelete(id)
+    }
+
+    static findByRefeshTokenUsed = async (refreshToken)=> {
+        return await keyTokenModel.findOne({refreshTokenUsed: refreshToken})
+    }
+
+    static deleteKeyById = async( userId) => {
+        return await keyTokenModel.deleteOne({user:  userId})
+    } 
+
+    static findByRefreshToken = async (refreshToken) => {
+        return await keyTokenModel.findOne({refreshToken})
     }
 }
 
