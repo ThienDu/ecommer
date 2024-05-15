@@ -19,8 +19,9 @@ const RolesShop = {
 
 class AccessService {
 
-    static logout = async ({keyStore}) => {
-        return await KeyTokenService.removeKeyById(keyStore._id)
+    static logout = async (keyStore) => {
+        const rmKey = await KeyTokenService.removeKeyById(keyStore._id)
+        return rmKey
     }
 
         //  1 - check email

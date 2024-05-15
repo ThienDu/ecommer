@@ -2,8 +2,9 @@
 
 const { filter } = require("lodash")
 const keyTokenModel = require("../models/keyToken.model")
-const Types = require('mongoose');
-
+const mongoose = require('mongoose');
+const { BadRequestError } = require("../core/error.response");
+const ObjectId = mongoose.Types
 class KeyTokenService{
     static createKeyToken= async ({userId, publicKey, privateKey, refreshToken}) => {
         try {
@@ -30,10 +31,15 @@ class KeyTokenService{
     }
 
     static findByUserId = async (userId) => {
-        return await keyTokenModel.findOne({ user:  Types.ObjectId(userId) }).lean();
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            console.log(`asjdfjasd;lfja;sldkjf;laskjdf;lkajsd`, userId)
+            throw new BadRequestError('Invalid user ID');
+            
+        }
+        return await keyTokenModel.findOne({ user:userId }).lean();
     }
-    static removeKeyById = async(id) => {
-        return await keyTokenModel.remove(id)
+    static removeKeyById = async({id}) => {
+        return await keyTokenModel.findOneAndDelete(id)
     }
 }
 

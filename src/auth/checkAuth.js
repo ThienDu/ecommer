@@ -17,10 +17,10 @@ const apiKey = async (req, res, next) => {
         }
         //check objKey
         const objKey = await finById(key)
-
+        console.log(`Fobidden Error key-api =========>>>>>>>>>>>>`, key)
         if(!objKey){
             return res.status(403).json({
-                message: 'Fobidden Error'
+                message: 'Fobidden Error key-api'
             })
         }
 

@@ -2,7 +2,7 @@
 
 const JWT = require('jsonwebtoken')
 const asyncHanlde = require('../helpers/asyncHandle')
-const { AuthFailureError } = require('../core/error.response')
+const { AuthFailureError, NotFoundError } = require('../core/error.response')
 const { findByUserId } = require('../services/keyToken.service')
 
 const HEADER = {
@@ -53,7 +53,7 @@ const authentication = asyncHanlde(async (req, res, next) => {
 
 
     //2..
-    const keyStore = await findByUserId(userId)    
+    const keyStore = await findByUserId(userId)  
     if(!keyStore) throw new NotFoundError('Not Found!!!')
 
     //3...

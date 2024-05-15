@@ -48,4 +48,5 @@ module.exports = {
     ConflictRequestError,
     BadRequestError,
     AuthFailureError,
+    NotFoundError
 }
