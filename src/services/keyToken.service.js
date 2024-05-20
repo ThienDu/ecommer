@@ -37,7 +37,7 @@ class KeyTokenService{
             throw new BadRequestError('Invalid user ID');
             
         }
-        return await keyTokenModel.findOne({ user:userId }).lean();
+        return await keyTokenModel.findOne({ user:userId })
     }
     static removeKeyById = async({id}) => {
         return await keyTokenModel.findOneAndDelete(id)

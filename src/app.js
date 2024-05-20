@@ -28,12 +28,13 @@ require('./dbs/init.mongodb')
 app.use('', require('./routers'))
 
 // handle erorr =>>  Phải đặt sau router
-app.use((req, res, netxt) => {
+app.use((error, req, res, netxt) => {
     const statusCode = error.status || 500
     netxt(error)
 
     return res.status(statusCode).json({
         status: 'error',
+        stack: error,
         code: statusCode,
         message: error.message || 'Internal Server Error'
     })

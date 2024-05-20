@@ -2,7 +2,7 @@
 const express= require('express')
 const accessController = require('../../controller/access.controller')
 const asyncHanlde = require('../../helpers/asyncHandle')
-const { authentication } = require('../../auth/authUtils')
+const { authentication, authenticationV2 } = require('../../auth/authUtils')
 const router = express.Router()
 
 //signUP
@@ -13,7 +13,7 @@ router.post('/shop/login', asyncHanlde(accessController.login))
 
 
 //Authentication
-router.use(authentication)
+router.use(authenticationV2)
 ///////////////////////////
 
 router.post('/shop/logout', asyncHanlde(accessController.logout))
