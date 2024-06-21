@@ -13,7 +13,7 @@ const productSchema = new Schema({
     product_description :String,
     product_price: {type: Number, require: true},
     product_quantity: {type: Number, require: true},
-    product_type: {type: String, require: true, enum: ['Electronic', 'Clothing', 'Furniture']},
+    product_type: {type: String, require: true, enum: ['Electronics', 'Clothing', 'Furniture']},
     product_shop: {type: Schema.Types.ObjectId, ref: 'Shop'},
     product_attributes: {type:Schema.Types.Mixed, require: true}
 
