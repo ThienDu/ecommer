@@ -80,6 +80,7 @@ const authenticationV2 = asyncHanlde(async (req, res, next) => {
         const decodeUser = JWT.verify(accessToken, keyStore.publicKey)
         if(userId !== decodeUser.userId) throw new AuthFailureError('Invalid User')
         req.keyStore = keyStore
+        req.user = decodeUser
         return next()
     } catch (error) {
         throw error
@@ -113,6 +114,8 @@ const authentication = asyncHanlde(async (req, res, next) => {
         const decodeUser = JWT.verify(accessToken, keyStore.publicKey)
         if(userId !== decodeUser.userId) throw new AuthFailureError('Invalid User')
         req.keyStore = keyStore
+        req.user = decodeUser
+        console.log(decodeUser)
         return next()
     } catch (error) {
         throw error

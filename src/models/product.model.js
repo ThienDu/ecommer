@@ -13,7 +13,7 @@ const productSchema = new Schema({
     product_description :String,
     product_price: {type: Number, require: true},
     product_quantity: {type: Number, require: true},
-    product_type: {type: String, require: true, enum: ['Electronics', 'Clothing', 'Furniture']},
+    product_type: {type: String, require: true, enum: ['Electronics', 'Clothing']},
     product_shop: {type: Schema.Types.ObjectId, ref: 'Shop'},
     product_attributes: {type:Schema.Types.Mixed, require: true}
 
@@ -29,7 +29,8 @@ const productSchema = new Schema({
 const clothingSchema= new Schema({
     brand: {type: String, require: true},
     size: String,
-    material: String
+    material: String,
+    product_shop : {type: Schema.Types.ObjectId, ref : 'Shop'}
 }, {
     collection: 'clothes',
     timestamps: true
@@ -40,9 +41,11 @@ const clothingSchema= new Schema({
 const electronicSchema= new Schema({
     manufatory: {type: String, require: true},
     model: String,
-    color: String
+    color: String,
+    product_shop : {type: Schema.Types.ObjectId, ref : 'Shop'}
+
 }, {
-    collection: 'electronics',
+    collection: 'electronic',
     timestamps: true
 })
 
@@ -51,5 +54,5 @@ const electronicSchema= new Schema({
 module.exports = {
     product : model(DOCUMENT_NAME, productSchema),
     clothing: model('Clothing', clothingSchema),
-    electronics: model('Electronics', electronicSchema)
+    electronic: model('Electronics', electronicSchema)
 }
