@@ -15,4 +15,9 @@ router.use(authenticationV2)
 ///////////////////////////
 router.post('', asyncHanlde( productController.createProduct))
 
+//QUERY //
+router.get('/drafts/all', asyncHanlde(productController.getAllDraftForShop))
+
+//END QUERY //
+
 module.exports = router
